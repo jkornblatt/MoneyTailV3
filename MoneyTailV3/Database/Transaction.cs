@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoneyTailV3.Database
 {
-    class Transaction
+    public class Transaction
     {
         public Transaction()
         {
