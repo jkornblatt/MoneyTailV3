@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MoneyTailV3.Database
+namespace MoneyTailV3
 {
     using System;
     using System.Data.Entity;

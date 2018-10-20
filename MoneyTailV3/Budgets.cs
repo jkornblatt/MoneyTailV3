@@ -7,28 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MoneyTailV3.Database
+namespace MoneyTailV3
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Transactions
+    public partial class Budgets
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Transactions()
+        public Budgets()
         {
-            this.Amount = 0.0m;
+            this.TotalSpent = 0.0m;
+            this.Transactions = new HashSet<Transactions>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public short UserId { get; set; }
-        public decimal Amount { get; set; }
-        public Nullable<short> BudgetId { get; set; }
-        public System.DateTime Date { get; set; }
-        public string Category { get; set; }
+        public decimal TotalSpent { get; set; }
+        public decimal TotalAllocated { get; set; }
     
-        public virtual Budgets Budget { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transactions> Transactions { get; set; }
         public virtual Users User { get; set; }
     }
 }
