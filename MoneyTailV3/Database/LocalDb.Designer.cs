@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\jack_kornblatt\Source\Repos\MoneyTailV3\MoneyTailV3\LocalDb.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\jack_kornblatt\Source\Repos\MoneyTailV3\MoneyTailV3\Database\LocalDb.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
