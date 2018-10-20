@@ -1,4 +1,5 @@
 ﻿using MoneyTailV3.Database;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace MoneyTailV3
                     break;
                 }
                 Budget newBudget = new Budget();
-                newBudget.Id = Convert.ToInt16(properties[0]);
+                newBudget.Id = currentBudgetId++;
                 newBudget.Name = properties[1];
                 newBudget.AmountAllocated = Convert.ToDecimal(properties[2]);
                 newBudget.UserId = Convert.ToInt16(properties[3]);
@@ -85,41 +86,49 @@ namespace MoneyTailV3
 
         public static void GetMockTransactions()
         {
-            var client = new RestClient(@"https://my.api.mockaroo.com/transactions.json?key=2f373de0");
-
-            var response = client.Execute(new RestRequest());
-
-            string[] results = response.Content.Replace("\n", "~").Split('~');
-
-            List<Transaction> newTransactionsList = new List<Transaction>();
-
-            foreach (string transaction in results)
+            try
             {
-                string[] properties = transaction.Split(',');
-                if (properties[0] == "")
-                {
-                    break;
-                }
-                Transaction newTransaction = new Transaction();
-                newTransaction.Id = Convert.ToInt16(properties[0]);
-                newTransaction.Name = properties[1];
-                newTransaction.UserId = Convert.ToInt16(properties[2]);
-                newTransaction.Amount = Convert.ToDecimal(properties[3]);
-                newTransaction.BudgetId = null;
-                if (properties[4] != "")
-                {
-                    newTransaction.BudgetId = Convert.ToInt16(properties[4]);
-                }
-                newTransaction.Date = Convert.ToDateTime(properties[5]);
-                newTransaction.Category = "none";
-                if ((properties[6]) != null)
-                {
-                    newTransaction.Category = properties[6];
-                }
+                var client = new RestClient(@"https://my.api.mockaroo.com/transactions.json?key=2f373de0");
 
-                newTransactionsList.Add(newTransaction);
+                var response = client.Execute(new RestRequest());
+
+                string[] results = response.Content.Replace("\n", "~").Split('~');
+
+                List<Transaction> newTransactionsList = new List<Transaction>();
+
+                foreach (string transaction in results)
+                {
+                    string[] properties = transaction.Split(',');
+                    if (properties[0] == "")
+                    {
+                        break;
+                    }
+                    Transaction newTransaction = new Transaction();
+                    newTransaction.Id = currentTransactionId++;
+                    newTransaction.Name = properties[1];
+                    newTransaction.UserId = Convert.ToInt16(properties[2]);
+                    newTransaction.Amount = Convert.ToDecimal(properties[3]);
+                    newTransaction.BudgetId = null;
+                    if (properties[4] != "")
+                    {
+                        newTransaction.BudgetId = Convert.ToInt16(properties[4]);
+                    }
+                    newTransaction.Date = Convert.ToDateTime(properties[5]);
+                    newTransaction.Category = "none";
+                    if ((properties[6]) != null)
+                    {
+                        newTransaction.Category = properties[6];
+                    }
+
+                    newTransactionsList.Add(newTransaction);
+                }
+                Transactions.AddRange(newTransactionsList);
             }
-            Transactions.AddRange(newTransactionsList);
+            catch (Exception)
+            {
+                Transactions.AddRange(JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"Transactions.json")));
+                currentTransactionId++;
+            }
         }
 
         public static DataTable ConvertToDataTable<Consumer>(IList<object> data)
