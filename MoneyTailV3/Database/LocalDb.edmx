@@ -4,11 +4,95 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="LocalDb.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="LocalDbTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="LocalDb.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="LocalDbStoreContainer">
+    <EntitySet Name="Budgets1" EntityType="LocalDb.Store.Budgets1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="LocalDb.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transactions" EntityType="LocalDb.Store.Transactions" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BudgetsTransactions" Association="LocalDb.Store.BudgetsTransactions">
+      <End Role="Budgets" EntitySet="Budgets1" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="UsersTransactions" Association="LocalDb.Store.UsersTransactions">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="UsersBudgets" Association="LocalDb.Store.UsersBudgets">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Budgets" EntitySet="Budgets1" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Budgets1">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="smallint" Nullable="false" />
+    <Property Name="TotalSpent" Type="decimal" Nullable="false" DefaultValue="0.0" />
+    <Property Name="TotalAllocated" Type="decimal" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="smallint" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" DefaultValue="0.0" />
+    <Property Name="BudgetId" Type="smallint" Nullable="true" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Category" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Budget_Id" Type="int" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="BudgetsTransactions">
+    <End Role="Budgets" Type="LocalDb.Store.Budgets1" Multiplicity="1" />
+    <End Role="Transactions" Type="LocalDb.Store.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Budgets">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="Budget_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersTransactions">
+    <End Role="Users" Type="LocalDb.Store.Users" Multiplicity="1" />
+    <End Role="Transactions" Type="LocalDb.Store.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersBudgets">
+    <End Role="Users" Type="LocalDb.Store.Users" Multiplicity="1" />
+    <End Role="Budgets" Type="LocalDb.Store.Budgets1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Budgets">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="LocalDb" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -82,13 +166,68 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="LocalDb" />
-        <Alias Key="Target" Value="LocalDb.Store" />
-        <EntityContainerMapping CdmEntityContainer="LocalDbContainer" StorageEntityContainer="LocalDbTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LocalDbStoreContainer" CdmEntityContainer="LocalDbContainer">
+    <EntitySetMapping Name="Budgets1">
+      <EntityTypeMapping TypeName="IsTypeOf(LocalDb.Budgets)">
+        <MappingFragment StoreEntitySet="Budgets1">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TotalSpent" ColumnName="TotalSpent" />
+          <ScalarProperty Name="TotalAllocated" ColumnName="TotalAllocated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(LocalDb.Users)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="IsTypeOf(LocalDb.Transactions)">
+        <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BudgetsTransactions" TypeName="LocalDb.BudgetsTransactions" StoreEntitySet="Transactions">
+      <EndProperty Name="Budgets">
+        <ScalarProperty Name="Id" ColumnName="Budget_Id" />
+      </EndProperty>
+      <EndProperty Name="Transactions">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsersTransactions" TypeName="LocalDb.UsersTransactions" StoreEntitySet="Transactions">
+      <EndProperty Name="Users">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Transactions">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsersBudgets" TypeName="LocalDb.UsersBudgets" StoreEntitySet="Budgets1">
+      <EndProperty Name="Users">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Budgets">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -102,6 +241,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
