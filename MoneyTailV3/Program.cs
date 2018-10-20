@@ -14,9 +14,22 @@ namespace MoneyTailV3
         [STAThread]
         static void Main()
         {
+            DatabaseHelpers.GetMockTransactions();
+            DatabaseHelpers.GetMockTransactions();
+            DatabaseHelpers.GetMockTransactions();
+            DatabaseHelpers.GetMockTransactions();
+            DatabaseHelpers.GetMockTransactions();
+
+            DatabaseHelpers.GetMockBudgets();
+            DatabaseHelpers.GetMockBudgets();
+            DatabaseHelpers.GetMockBudgets();
+            DatabaseHelpers.GetMockBudgets();
+            DatabaseHelpers.GetMockBudgets();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainDashboard());
+
         }
     }
 }
