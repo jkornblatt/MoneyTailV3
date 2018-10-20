@@ -14,6 +14,8 @@ namespace MoneyTailV3.Database
 
         public decimal AmountAllocated { get; set; }
 
-        public decimal AmountSpent { get => DatabaseHelpers.GetBudgetTotal(this.Id); }
+        public int UserId { get; set; }
+
+        public decimal AmountSpent { get => DatabaseHelpers.GetBudgetTotalSpent(this.Id); }
     }
 }

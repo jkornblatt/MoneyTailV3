@@ -2,6 +2,8 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,7 +32,7 @@ namespace MoneyTailV3
         }
 
         static List<Budget> budgets = new List<Budget>();
-        public static List<Budget> Budget { get => budgets; set => budgets = value; }
+        public static List<Budget> Budgets { get => budgets; set => budgets = value; }
         static int currentBudgetId = 0;
         public static int GetCurrentBudgetId(bool increase)
         {
@@ -38,13 +40,13 @@ namespace MoneyTailV3
         }
 
 
-        public static decimal GetBudgetTotal(int budgetId)
+        public static decimal GetBudgetTotalSpent(int budgetId)
         {
             decimal retVal = 0;
 
             try
             {
-                retVal = (from transactions in Transactions where transactions.BudgetId == budgetId select transactions.Amount).Sum();
+                retVal = (from transactions in transactions where transactions.BudgetId == budgetId select transactions.Amount).Sum();
             }
             catch
             {
@@ -52,6 +54,35 @@ namespace MoneyTailV3
 
             return retVal;
         }
+
+        public static void GetMockBudgets()
+        {
+            var client = new RestClient(@"https://my.api.mockaroo.com/budgets.json?key=2f373de0");
+
+            var response = client.Execute(new RestRequest());
+
+            string[] results = response.Content.Replace("\n", "~").Split('~');
+
+            List<Budget> newBudgetList = new List<Budget>();
+
+            foreach (string budget in results)
+            {
+                string[] properties = budget.Split(',');
+                if (properties[0] == "")
+                {
+                    break;
+                }
+                Budget newBudget = new Budget();
+                newBudget.Id = Convert.ToInt16(properties[0]);
+                newBudget.Name = properties[1];
+                newBudget.AmountAllocated = Convert.ToDecimal(properties[2]);
+                newBudget.UserId = Convert.ToInt16(properties[3]);
+
+                newBudgetList.Add(newBudget);
+            }
+            Budgets.AddRange(newBudgetList);
+        }
+
         public static void GetMockTransactions()
         {
             var client = new RestClient(@"https://my.api.mockaroo.com/transactions.json?key=2f373de0");
@@ -70,6 +101,7 @@ namespace MoneyTailV3
                     break;
                 }
                 Transaction newTransaction = new Transaction();
+                newTransaction.Id = Convert.ToInt16(properties[0]);
                 newTransaction.Name = properties[1];
                 newTransaction.UserId = Convert.ToInt16(properties[2]);
                 newTransaction.Amount = Convert.ToDecimal(properties[3]);
@@ -88,6 +120,29 @@ namespace MoneyTailV3
                 newTransactionsList.Add(newTransaction);
             }
             Transactions.AddRange(newTransactionsList);
+        }
+
+        public static DataTable ConvertToDataTable<Consumer>(IList<object> data)
+        {
+            PropertyDescriptorCollection properties =
+               TypeDescriptor.GetProperties(typeof(Consumer));
+            DataTable table = new DataTable();
+
+            foreach (PropertyDescriptor prop in properties)
+
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+
+            foreach (var item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+
+                table.Rows.Add(row);
+            }
+            return table;
+
         }
     }
 }
