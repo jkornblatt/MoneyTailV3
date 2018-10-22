@@ -58,30 +58,38 @@ namespace MoneyTailV3
 
         public static void GetMockBudgets()
         {
-            var client = new RestClient(@"https://my.api.mockaroo.com/budgets.json?key=2f373de0");
-
-            var response = client.Execute(new RestRequest());
-
-            string[] results = response.Content.Replace("\n", "~").Split('~');
-
-            List<Budget> newBudgetList = new List<Budget>();
-
-            foreach (string budget in results)
+            try
             {
-                string[] properties = budget.Split(',');
-                if (properties[0] == "")
-                {
-                    break;
-                }
-                Budget newBudget = new Budget();
-                newBudget.Id = currentBudgetId++;
-                newBudget.Name = properties[1];
-                newBudget.AmountAllocated = Convert.ToDecimal(properties[2]);
-                newBudget.UserId = Convert.ToInt16(properties[3]);
+                var client = new RestClient(@"https://my.api.mockaroo.com/budgets.json?key=2f373de0");
 
-                newBudgetList.Add(newBudget);
+                var response = client.Execute(new RestRequest());
+
+                string[] results = response.Content.Replace("\n", "~").Split('~');
+
+                List<Budget> newBudgetList = new List<Budget>();
+
+                foreach (string budget in results)
+                {
+                    string[] properties = budget.Split(',');
+                    if (properties[0] == "")
+                    {
+                        break;
+                    }
+                    Budget newBudget = new Budget();
+                    newBudget.Id = currentBudgetId++;
+                    newBudget.Name = properties[1];
+                    newBudget.AmountAllocated = Convert.ToDecimal(properties[2]);
+                    newBudget.UserId = Convert.ToInt16(properties[3]);
+
+                    newBudgetList.Add(newBudget);
+                }
+                Budgets.AddRange(newBudgetList);
             }
-            Budgets.AddRange(newBudgetList);
+            catch (Exception)
+            {
+                Budgets.AddRange(JsonConvert.DeserializeObject<List<Budget>>(File.ReadAllText(@"Budgets.json")));
+                currentBudgetId += 50;
+            }
         }
 
         public static void GetMockTransactions()
@@ -127,7 +135,7 @@ namespace MoneyTailV3
             catch (Exception)
             {
                 Transactions.AddRange(JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"Transactions.json")));
-                currentTransactionId++;
+                currentTransactionId += 20;
             }
         }
 
