@@ -28,10 +28,12 @@ namespace MoneyTailV3
 
             if (afterDate.CompareTo(beforeDate) == 1)
             {
-                //display invalid input message
+                this.label3.Visible = true;
             }
             else
             {
+                this.label3.Visible = false;
+
                 List<Database.Transaction> transactionsList = (from transactions in DatabaseHelpers.Transactions where (transactions.Date.CompareTo(afterDate) != -1 && transactions.Date.CompareTo(beforeDate) != 1) select transactions).ToList();
 
                 var bindingList = new BindingList<Transaction>(transactionsList);
@@ -51,7 +53,6 @@ namespace MoneyTailV3
             this.label2 = new System.Windows.Forms.Label();
             this.AfterDatePicker = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.transactionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,7 +60,9 @@ namespace MoneyTailV3
             this.budgetIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.transactionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.SubmitButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.transactionBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -115,10 +118,6 @@ namespace MoneyTailV3
             this.dataGridView1.Size = new System.Drawing.Size(741, 425);
             this.dataGridView1.TabIndex = 4;
             //
-            // transactionBindingSource
-            //
-            this.transactionBindingSource.DataSource = typeof(MoneyTailV3.Database.Transaction);
-            //
             // idDataGridViewTextBoxColumn
             //
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -161,18 +160,35 @@ namespace MoneyTailV3
             this.categoryDataGridViewTextBoxColumn.HeaderText = "Category";
             this.categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
             //
+            // transactionBindingSource
+            //
+            this.transactionBindingSource.DataSource = typeof(MoneyTailV3.Database.Transaction);
+            //
             // SubmitButton
             //
             this.SubmitButton.Location = new System.Drawing.Point(703, 84);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 5;
-            this.SubmitButton.Text = "button1";
+            this.SubmitButton.Text = "Submit";
             this.SubmitButton.UseVisualStyleBackColor = true;
+            this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
+            //
+            // label3
+            //
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(343, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(207, 17);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "You Have Chosen Invalid Dates";
+            this.label3.Visible = false;
             //
             // SearchTransactions
             //
             this.ClientSize = new System.Drawing.Size(915, 569);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.AfterDatePicker);

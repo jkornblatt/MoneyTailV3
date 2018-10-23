@@ -29,5 +29,6 @@ namespace MoneyTailV3
         private BindingSource transactionBindingSource;
         private IContainer components;
         private Button SubmitButton;
+        private Label label3;
     }
 }
