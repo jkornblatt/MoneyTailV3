@@ -48,6 +48,7 @@
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(100, 22);
             this.NameTextBox.TabIndex = 0;
+            this.NameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
             // 
             // DateDateTimePicker
             // 
@@ -55,6 +56,7 @@
             this.DateDateTimePicker.Name = "DateDateTimePicker";
             this.DateDateTimePicker.Size = new System.Drawing.Size(200, 22);
             this.DateDateTimePicker.TabIndex = 3;
+            this.DateDateTimePicker.ValueChanged += new System.EventHandler(this.DateDateTimePicker_ValueChanged);
             // 
             // SubmitButton
             // 
@@ -82,6 +84,7 @@
             this.CategoryComboBox.Name = "CategoryComboBox";
             this.CategoryComboBox.Size = new System.Drawing.Size(121, 24);
             this.CategoryComboBox.TabIndex = 7;
+            this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
             // 
             // BudgetComboBox
             // 
@@ -90,6 +93,7 @@
             this.BudgetComboBox.Name = "BudgetComboBox";
             this.BudgetComboBox.Size = new System.Drawing.Size(121, 24);
             this.BudgetComboBox.TabIndex = 8;
+            this.BudgetComboBox.SelectedIndexChanged += new System.EventHandler(this.BudgetComboBox_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -99,6 +103,7 @@
             this.label1.Size = new System.Drawing.Size(45, 17);
             this.label1.TabIndex = 9;
             this.label1.Text = "Name";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -108,6 +113,7 @@
             this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "Amount";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // AmountTextBox
             // 
@@ -115,6 +121,7 @@
             this.AmountTextBox.Name = "AmountTextBox";
             this.AmountTextBox.Size = new System.Drawing.Size(100, 22);
             this.AmountTextBox.TabIndex = 0;
+            this.AmountTextBox.TextChanged += new System.EventHandler(this.AmountTextBox_TextChanged);
             // 
             // label3
             // 
@@ -124,6 +131,7 @@
             this.label3.Size = new System.Drawing.Size(53, 17);
             this.label3.TabIndex = 11;
             this.label3.Text = "Budget";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -133,6 +141,7 @@
             this.label4.Size = new System.Drawing.Size(38, 17);
             this.label4.TabIndex = 12;
             this.label4.Text = "Date";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -142,6 +151,7 @@
             this.label5.Size = new System.Drawing.Size(65, 17);
             this.label5.TabIndex = 13;
             this.label5.Text = "Category";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -153,6 +163,7 @@
             this.label6.TabIndex = 14;
             this.label6.Text = "Something you entered was invalid, please try to fix this and try again";
             this.label6.Visible = false;
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // EditTransaction
             // 

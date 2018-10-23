@@ -21,5 +21,54 @@ namespace MoneyTailV3
         {
 
         }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string nameTextBoxValue = this.NameTextBox.Text;
+                decimal amountTextBoxValue = Convert.ToDecimal(this.AmountTextBox.Text);
+
+                Database.Budget newBudgetValues = new Database.Budget();
+
+
+                newBudgetValues.AmountAllocated = amountTextBoxValue;
+                newBudgetValues.Name = nameTextBoxValue;
+                newBudgetValues.Id = DatabaseHelpers.GetCurrentBudgetId(true);
+
+                DatabaseHelpers.Budgets.Add(newBudgetValues);
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                this.label6.Visible = true;
+            }
+        }
+
+        private void AmountTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
