@@ -1,0 +1,10 @@
+[{"Id":1,"Name":"success","AmountAllocated":"8.93","UserId":9},
+{"Id":2,"Name":"Advanced","AmountAllocated":"32.71","UserId":9},
+{"Id":3,"Name":"parallelism","AmountAllocated":"32.34","UserId":1},
+{"Id":4,"Name":"Public-key","AmountAllocated":"90.00","UserId":1},
+{"Id":5,"Name":"contextually-based","AmountAllocated":"2.82","UserId":6},
+{"Id":6,"Name":"algorithm","AmountAllocated":"52.79","UserId":6},
+{"Id":7,"Name":"Cross-platform","AmountAllocated":"97.23","UserId":1},
+{"Id":8,"Name":"actuating","AmountAllocated":"55.26","UserId":2},
+{"Id":9,"Name":"website","AmountAllocated":"15.40","UserId":9},
+{"Id":10,"Name":"complexity","AmountAllocated":"47.35","UserId":4}]
