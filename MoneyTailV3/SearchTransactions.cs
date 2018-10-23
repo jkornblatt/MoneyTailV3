@@ -69,7 +69,7 @@ namespace MoneyTailV3
             //
             // BeforeDatePicker
             //
-            this.BeforeDatePicker.Location = new System.Drawing.Point(228, 84);
+            this.BeforeDatePicker.Location = new System.Drawing.Point(483, 85);
             this.BeforeDatePicker.Name = "BeforeDatePicker";
             this.BeforeDatePicker.Size = new System.Drawing.Size(200, 22);
             this.BeforeDatePicker.TabIndex = 0;
@@ -94,7 +94,7 @@ namespace MoneyTailV3
             //
             // AfterDatePicker
             //
-            this.AfterDatePicker.Location = new System.Drawing.Point(472, 84);
+            this.AfterDatePicker.Location = new System.Drawing.Point(228, 85);
             this.AfterDatePicker.Name = "AfterDatePicker";
             this.AfterDatePicker.Size = new System.Drawing.Size(200, 22);
             this.AfterDatePicker.TabIndex = 3;

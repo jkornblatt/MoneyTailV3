@@ -46,6 +46,7 @@
             this.label6.TabIndex = 26;
             this.label6.Text = "Something you entered was invalid, please try to fix this and try again";
             this.label6.Visible = false;
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // AmountTextBox
             // 
@@ -53,6 +54,7 @@
             this.AmountTextBox.Name = "AmountTextBox";
             this.AmountTextBox.Size = new System.Drawing.Size(100, 22);
             this.AmountTextBox.TabIndex = 15;
+            this.AmountTextBox.TextChanged += new System.EventHandler(this.AmountTextBox_TextChanged);
             // 
             // label2
             // 
@@ -62,6 +64,7 @@
             this.label2.Size = new System.Drawing.Size(105, 17);
             this.label2.TabIndex = 22;
             this.label2.Text = "Budget Amount";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -71,6 +74,7 @@
             this.label1.Size = new System.Drawing.Size(94, 17);
             this.label1.TabIndex = 21;
             this.label1.Text = "Budget Name";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // SubmitButton
             // 
@@ -88,6 +92,7 @@
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(100, 22);
             this.NameTextBox.TabIndex = 16;
+            this.NameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
             // 
             // EditBudget
             // 

@@ -33,7 +33,6 @@ namespace MoneyTailV3
             {
                 string nameTextBoxValue = this.NameTextBox.Text;
                 decimal amountTextBoxValue = Convert.ToDecimal(this.AmountTextBox.Text);
-                int? budgetComboBoxValue = null;
 
                 Database.Budget newBudgetValues = (from budget in DatabaseHelpers.Budgets where budget.Id == currentBudget select budget).Single();
 
@@ -50,6 +49,31 @@ namespace MoneyTailV3
             {
                 this.label6.Visible = true;
             }
+        }
+
+        private void AmountTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

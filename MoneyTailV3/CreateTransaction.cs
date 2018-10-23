@@ -18,6 +18,20 @@ namespace MoneyTailV3
         {
             this.currentUserId = currentUser;
             InitializeComponent();
+            InitializeBudgetComboBox();
+        }
+
+        private void InitializeBudgetComboBox()
+        {
+            List<Database.Budget> userBudgets = (from budgets in DatabaseHelpers.Budgets where budgets.UserId == currentUserId select budgets).ToList();
+
+            List<string> budgetNames = new List<string>();
+
+            foreach (var budget in userBudgets)
+            {
+                budgetNames.Add(budget.Id + "." + budget.Name);
+            }
+            this.BudgetComboBox.DataSource = budgetNames;
         }
 
         private void CreateTransaction_Load(object sender, EventArgs e)

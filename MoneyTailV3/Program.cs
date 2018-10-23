@@ -14,6 +14,8 @@ namespace MoneyTailV3
         [STAThread]
         static void Main()
         {
+            DatabaseHelpers.GetMockUsers();
+
             DatabaseHelpers.GetMockTransactions();
             DatabaseHelpers.GetMockTransactions();
             DatabaseHelpers.GetMockTransactions();
@@ -21,10 +23,7 @@ namespace MoneyTailV3
             DatabaseHelpers.GetMockTransactions();
 
             DatabaseHelpers.GetMockBudgets();
-            DatabaseHelpers.GetMockBudgets();
-            DatabaseHelpers.GetMockBudgets();
-            DatabaseHelpers.GetMockBudgets();
-            DatabaseHelpers.GetMockBudgets();
+
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

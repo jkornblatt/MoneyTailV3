@@ -28,18 +28,26 @@ namespace MoneyTailV3
             string username = usernameBox.Text;
             string password = passwordBox.Text;
 
-            bool userFound;
+            bool userFound = false;
 
-            var query = from users in DatabaseHelpers.Users
+            Database.User user = new Database.User();
+
+            try
+            {
+                user = (from users in DatabaseHelpers.Users
                         where users.Username == username && users.Password == password
-                        select users;
+                        select users).Single();
 
-            userFound = query.Single() != null;
+                userFound = user != null;
+            }
+            catch (Exception)
+            {
+            }
 
             if (userFound)
             {
                 this.Hide();
-                MainDashboard mainDashboard = new MainDashboard(query.Single().Id);
+                MainDashboard mainDashboard = new MainDashboard(user.Id);
                 mainDashboard.Show();
             }
             else

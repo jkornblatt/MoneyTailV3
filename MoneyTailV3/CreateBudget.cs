@@ -12,8 +12,11 @@ namespace MoneyTailV3
 {
     public partial class CreateBudget : Form
     {
-        public CreateBudget()
+        int currentUserId;
+
+        public CreateBudget(int currentUser)
         {
+            this.currentUserId = currentUser;
             InitializeComponent();
         }
 
@@ -35,6 +38,7 @@ namespace MoneyTailV3
                 newBudgetValues.AmountAllocated = amountTextBoxValue;
                 newBudgetValues.Name = nameTextBoxValue;
                 newBudgetValues.Id = DatabaseHelpers.GetCurrentBudgetId(true);
+                newBudgetValues.UserId = currentUserId;
 
                 DatabaseHelpers.Budgets.Add(newBudgetValues);
 

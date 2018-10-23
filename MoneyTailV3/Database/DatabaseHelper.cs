@@ -112,8 +112,13 @@ namespace MoneyTailV3
             }
             catch (Exception)
             {
-                Budgets.AddRange(JsonConvert.DeserializeObject<List<Budget>>(File.ReadAllText(@"Budgets.json")));
-                currentBudgetId += 50;
+                List<Budget> budgets = (JsonConvert.DeserializeObject<List<Budget>>(File.ReadAllText(@"Budgets.json")));
+
+                foreach (var item in budgets)
+                {
+                    item.Id = GetCurrentBudgetId(true);
+                    Budgets.Add(item);
+                }
             }
         }
 
@@ -159,8 +164,14 @@ namespace MoneyTailV3
             }
             catch (Exception)
             {
-                Transactions.AddRange(JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"Transactions.json")));
-                currentTransactionId += 20;
+                List<Transaction> transactionsList =  JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"Transactions.json"));
+
+                foreach (var item in transactionsList)
+                {
+                    item.Id = GetCurrentTransactionId(true);
+                    Transactions.Add(item);
+                }
+
             }
         }
 

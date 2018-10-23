@@ -17,8 +17,10 @@ namespace MoneyTailV3
     {
         private int CurrentUserId;
         ToolStripMenuItem Edit = new ToolStripMenuItem();
+        ToolStripMenuItem Delete = new ToolStripMenuItem();
         ContextMenuStrip transactionStrip;
         ContextMenuStrip budgetStrip;
+
         string cellErrorText;
         int transactionSelectedId;
         int budgetSelectedId;
@@ -51,11 +53,32 @@ namespace MoneyTailV3
             if (transactionStrip == null)
             {
                 transactionStrip = new ContextMenuStrip();
-                transactionStrip.Click += EditTransaction_Click;
+                Edit.Click += EditTransaction_Click;
                 Edit.Text = "Edit This Transaction";
                 transactionStrip.Items.Add(Edit);
+                Delete.Click += DeleteTransaction_Click;
+                Delete.Text = "Delete This Transaction";
+                transactionStrip.Items.Add(Delete);
+
             }
+
             e.ContextMenuStrip = transactionStrip;
+        }
+
+        private void DeleteBudget_Click(object sender, EventArgs e)
+        {
+
+            DatabaseHelpers.Budgets.Remove((from items in DatabaseHelpers.Budgets where items.Id == budgetSelectedId select items).Single());
+
+            SetupBudgetsView();
+        }
+
+        private void DeleteTransaction_Click(object sender, EventArgs e)
+        {
+
+            DatabaseHelpers.Transactions.Remove((from items in DatabaseHelpers.Transactions where items.Id == transactionSelectedId select items).Single());
+
+            SetupTransactionsView();
         }
 
         private void dataGridView2_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
@@ -65,9 +88,12 @@ namespace MoneyTailV3
             if (budgetStrip == null)
             {
                 budgetStrip = new ContextMenuStrip();
-                budgetStrip.Click += EditBudget_Click;
+                Edit.Click += EditBudget_Click;
                 Edit.Text = "Edit This Budget";
                 budgetStrip.Items.Add(Edit);
+                Delete.Click += DeleteBudget_Click;
+                Delete.Text = "Delete This Budget";
+                budgetStrip.Items.Add(Delete);
             }
             e.ContextMenuStrip = budgetStrip;
         }
@@ -84,6 +110,14 @@ namespace MoneyTailV3
             var source = new BindingSource(bindingList, null);
             this.dataGridView2.DataSource = source;
             this.dataGridView2.CellContextMenuStripNeeded += this.dataGridView2_CellContextMenuStripNeeded;
+
+            foreach (DataGridViewRow row in this.dataGridView2.Rows)
+            {
+                if (Convert.ToInt64(row.Cells[2].Value) < Convert.ToInt64(row.Cells[3].Value))
+                {
+                    this.dataGridView2.Rows[this.dataGridView2.Rows.IndexOf(row)].DefaultCellStyle.ForeColor = Color.Red;
+                }
+            }
 
         }
 
@@ -140,7 +174,7 @@ namespace MoneyTailV3
                                              where transaction.Category == category
                                              select transaction.Amount;
 
-                categorySpending.Add(category, (decimal)transactionsByCategory.Sum());
+                categorySpending.Add(category ?? "none", (decimal)transactionsByCategory.Sum());
             }
 
             return categorySpending;
@@ -150,6 +184,18 @@ namespace MoneyTailV3
         {
             SearchTransactions searchTransactions = new SearchTransactions(CurrentUserId);
             searchTransactions.Show();
+        }
+
+        private void ManageTransactions_Click(object sender, EventArgs e)
+        {
+            CreateTransaction createTransaction = new CreateTransaction(this.CurrentUserId);
+            createTransaction.Show();
+        }
+
+        private void ManageBudgets_Click(object sender, EventArgs e)
+        {
+            CreateBudget createBudget = new CreateBudget(this.CurrentUserId);
+            createBudget.Show();
         }
     }
 }
