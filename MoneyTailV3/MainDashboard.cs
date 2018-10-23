@@ -15,7 +15,7 @@ namespace MoneyTailV3
 {
     public partial class MainDashboard : Form
     {
-        private int CurrentUserId = 1;
+        private int CurrentUserId;
         ToolStripMenuItem Edit = new ToolStripMenuItem();
         ContextMenuStrip transactionStrip;
         ContextMenuStrip budgetStrip;
@@ -23,8 +23,9 @@ namespace MoneyTailV3
         int transactionSelectedId;
         int budgetSelectedId;
 
-        public MainDashboard()
+        public MainDashboard(int currentUser)
         {
+            this.CurrentUserId = currentUser;
             InitializeComponent();
             CreateChart();
             SetupTransactionsView();
@@ -39,7 +40,7 @@ namespace MoneyTailV3
 
         private void EditBudget_Click(object sender, EventArgs e)
         {
-            EditBudget editBudget = new EditBudget(budgetSelectedId);
+            EditBudget editBudget = new EditBudget(budgetSelectedId, CurrentUserId);
             editBudget.Show();
         }
 
