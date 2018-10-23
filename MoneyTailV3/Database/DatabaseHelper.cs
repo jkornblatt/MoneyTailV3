@@ -32,6 +32,31 @@ namespace MoneyTailV3
             return increase ? currentTransactionId++ : currentTransactionId;
         }
 
+        public static void GetMockUsers()
+        {
+            User jackUser = new User();
+            jackUser.Username = "jkornblatt";
+            jackUser.Password = "MoneyTail";
+            jackUser.Id = GetCurrentUserId(true)+1;
+            Users.Add(jackUser);
+
+            try
+            {
+                var client = new RestClient(@"https://my.api.mockaroo.com/users.json?key=2f373de0");
+
+                var response = client.Execute(new RestRequest());
+
+                List<User> newUserList = JsonConvert.DeserializeObject<List<User>>(response.Content);
+                newUserList.RemoveAt(0);
+                Users.AddRange(newUserList);
+            }
+            catch (Exception)
+            {
+                Users.AddRange(JsonConvert.DeserializeObject<List<User>>(File.ReadAllText(@"Users.json")));
+                currentBudgetId += 10;
+            }
+        }
+
         static List<Budget> budgets = new List<Budget>();
         public static List<Budget> Budgets { get => budgets; set => budgets = value; }
         static int currentBudgetId = 0;
@@ -79,7 +104,7 @@ namespace MoneyTailV3
                     newBudget.Id = currentBudgetId++;
                     newBudget.Name = properties[1];
                     newBudget.AmountAllocated = Convert.ToDecimal(properties[2]);
-                    newBudget.UserId = Convert.ToInt16(properties[3]);
+                    newBudget.UserId = Convert.ToInt16(properties[3] ) - 1;
 
                     newBudgetList.Add(newBudget);
                 }
@@ -114,7 +139,7 @@ namespace MoneyTailV3
                     Transaction newTransaction = new Transaction();
                     newTransaction.Id = currentTransactionId++;
                     newTransaction.Name = properties[1];
-                    newTransaction.UserId = Convert.ToInt16(properties[2]);
+                    newTransaction.UserId = Convert.ToInt16(properties[2]) - 1;
                     newTransaction.Amount = Convert.ToDecimal(properties[3]);
                     newTransaction.BudgetId = null;
                     if (properties[4] != "")
