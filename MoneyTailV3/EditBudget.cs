@@ -12,14 +12,44 @@ namespace MoneyTailV3
 {
     public partial class EditBudget : Form
     {
-        public EditBudget(int budget)
+        int currentUserId;
+        int currentBudget;
+
+        public EditBudget(int budget, int currentUser)
         {
+            this.currentBudget = budget;
+            this.currentUserId = currentUser;
             InitializeComponent();
         }
 
         private void EditBudget_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string nameTextBoxValue = this.NameTextBox.Text;
+                decimal amountTextBoxValue = Convert.ToDecimal(this.AmountTextBox.Text);
+                int? budgetComboBoxValue = null;
+
+                Database.Budget newBudgetValues = (from budget in DatabaseHelpers.Budgets where budget.Id == currentBudget select budget).Single();
+
+                int listLocation = DatabaseHelpers.Budgets.IndexOf(newBudgetValues);
+
+                newBudgetValues.AmountAllocated = amountTextBoxValue;
+                newBudgetValues.Name = nameTextBoxValue;
+
+                DatabaseHelpers.Budgets[listLocation] = newBudgetValues;
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                this.label6.Visible = true;
+            }
         }
     }
 }

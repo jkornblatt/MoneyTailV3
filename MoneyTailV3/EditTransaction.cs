@@ -71,12 +71,12 @@ namespace MoneyTailV3
                 DatabaseHelpers.Transactions[listLocation] = newTransactionValues;
 
                 this.Close();
-        }
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 this.label6.Visible = true;
             }
 
-}
+        }
     }
 }
