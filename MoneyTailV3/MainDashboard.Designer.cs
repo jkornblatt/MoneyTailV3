@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.pieChart1 = new LiveCharts.WinForms.PieChart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.ManageBudgets = new System.Windows.Forms.Button();
-            this.ManageTransactions = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,11 +41,14 @@
             this.categoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transactionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.budgetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.idDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountAllocatedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountSpentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.budgetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ManageBudgets = new System.Windows.Forms.Button();
+            this.ManageTransactions = new System.Windows.Forms.Button();
+            this.SearchTransactionsButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.transactionBindingSource)).BeginInit();
@@ -79,24 +80,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1244, 632);
             this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // ManageBudgets
-            // 
-            this.ManageBudgets.Location = new System.Drawing.Point(641, 15);
-            this.ManageBudgets.Name = "ManageBudgets";
-            this.ManageBudgets.Size = new System.Drawing.Size(603, 34);
-            this.ManageBudgets.TabIndex = 6;
-            this.ManageBudgets.Text = "Manage Budgets";
-            this.ManageBudgets.UseVisualStyleBackColor = true;
-            // 
-            // ManageTransactions
-            // 
-            this.ManageTransactions.Location = new System.Drawing.Point(0, 15);
-            this.ManageTransactions.Name = "ManageTransactions";
-            this.ManageTransactions.Size = new System.Drawing.Size(635, 34);
-            this.ManageTransactions.TabIndex = 5;
-            this.ManageTransactions.Text = "Manage Transactions";
-            this.ManageTransactions.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -179,10 +162,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(370, 626);
             this.dataGridView2.TabIndex = 2;
             // 
-            // budgetBindingSource
-            // 
-            this.budgetBindingSource.DataSource = typeof(MoneyTailV3.Database.Budget);
-            // 
             // idDataGridViewTextBoxColumn1
             // 
             this.idDataGridViewTextBoxColumn1.DataPropertyName = "Id";
@@ -208,11 +187,44 @@
             this.amountSpentDataGridViewTextBoxColumn.Name = "amountSpentDataGridViewTextBoxColumn";
             this.amountSpentDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // budgetBindingSource
+            // 
+            this.budgetBindingSource.DataSource = typeof(MoneyTailV3.Database.Budget);
+            // 
+            // ManageBudgets
+            // 
+            this.ManageBudgets.Location = new System.Drawing.Point(871, 15);
+            this.ManageBudgets.Name = "ManageBudgets";
+            this.ManageBudgets.Size = new System.Drawing.Size(373, 34);
+            this.ManageBudgets.TabIndex = 6;
+            this.ManageBudgets.Text = "Manage Budgets";
+            this.ManageBudgets.UseVisualStyleBackColor = true;
+            // 
+            // ManageTransactions
+            // 
+            this.ManageTransactions.Location = new System.Drawing.Point(0, 15);
+            this.ManageTransactions.Name = "ManageTransactions";
+            this.ManageTransactions.Size = new System.Drawing.Size(431, 34);
+            this.ManageTransactions.TabIndex = 5;
+            this.ManageTransactions.Text = "Manage Transactions";
+            this.ManageTransactions.UseVisualStyleBackColor = true;
+            // 
+            // SearchTransactionsButton
+            // 
+            this.SearchTransactionsButton.Location = new System.Drawing.Point(434, 15);
+            this.SearchTransactionsButton.Name = "SearchTransactionsButton";
+            this.SearchTransactionsButton.Size = new System.Drawing.Size(431, 34);
+            this.SearchTransactionsButton.TabIndex = 7;
+            this.SearchTransactionsButton.Text = "Search Transactions";
+            this.SearchTransactionsButton.UseVisualStyleBackColor = true;
+            this.SearchTransactionsButton.Click += new System.EventHandler(this.SearchTransactionsButton_Click);
+            // 
             // MainDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1245, 702);
+            this.Controls.Add(this.SearchTransactionsButton);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ManageBudgets);
             this.Controls.Add(this.ManageTransactions);
@@ -247,6 +259,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn amountAllocatedDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountSpentDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource budgetBindingSource;
+        private System.Windows.Forms.Button SearchTransactionsButton;
     }
 }
 

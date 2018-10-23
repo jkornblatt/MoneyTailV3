@@ -71,9 +71,15 @@ namespace MoneyTailV3
             e.ContextMenuStrip = budgetStrip;
         }
 
+        public void MainDashboard_Activate(object sender, System.EventArgs e)
+        {
+            this.SetupTransactionsView();
+            this.SetupBudgetsView();
+        }
+
         private void SetupBudgetsView()
         {
-            var bindingList = new BindingList<Budget>(DatabaseHelpers.Budgets);
+            var bindingList = new BindingList<Budget>((from budgets in DatabaseHelpers.Budgets where budgets.UserId == CurrentUserId select budgets).ToList());
             var source = new BindingSource(bindingList, null);
             this.dataGridView2.DataSource = source;
             this.dataGridView2.CellContextMenuStripNeeded += this.dataGridView2_CellContextMenuStripNeeded;
@@ -82,7 +88,7 @@ namespace MoneyTailV3
 
         private void SetupTransactionsView()
         {
-            var bindingList = new BindingList<Transaction>(DatabaseHelpers.Transactions);
+            var bindingList = new BindingList<Transaction>((from transactions in DatabaseHelpers.Transactions where transactions.UserId == CurrentUserId select transactions).ToList());
             var source = new BindingSource(bindingList, null);
             this.dataGridView1.DataSource = source;
             this.dataGridView1.CellContextMenuStripNeeded += this.dataGridView1_CellContextMenuStripNeeded;
@@ -137,6 +143,12 @@ namespace MoneyTailV3
             }
 
             return categorySpending;
+        }
+
+        private void SearchTransactionsButton_Click(object sender, EventArgs e)
+        {
+            SearchTransactions searchTransactions = new SearchTransactions(CurrentUserId);
+            searchTransactions.Show();
         }
     }
 }
